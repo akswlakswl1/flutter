@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:movie_web/data/movie_data.dart';
+import 'package:movie_web/model/movie_model.dart';
 import 'package:movie_web/skeleton_loading/carousel_skeleton.dart';
 import 'package:movie_web/skeleton_loading/now_skeleton.dart';
 import 'package:movie_web/skeleton_loading/popular_skeleton.dart';
 import 'package:movie_web/widget/footer.dart';
 import 'package:movie_web/widget/icon_searchbar.dart';
 import 'package:movie_web/widget/main_daawer.dart';
+import 'package:movie_web/widget/main_widget/main_carousel.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -14,6 +17,26 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  List<MovieModel> _topratedMovie = [];
+  bool isLoading = true;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      getMovieData();
+    });
+
+  }
+
+  getMovieData() async{
+    var data = MovieData();
+    _topratedMovie = await data.fetchTopRatedMovie();
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,20 +53,20 @@ class _HomepageState extends State<Homepage> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Flexible(
                   flex: 2,
                   child: Padding(
-                    padding: EdgeInsets.only(left: 16),
-                    child: CarouselSkeleton(),
+                    padding: const EdgeInsets.only(left: 16),
+                    child: isLoading ? const CarouselSkeleton() : MainCarouselSlider(topratedMovies: _topratedMovie),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
-                Flexible(
+                const Flexible(
                   flex: 1,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,12 +109,7 @@ class _HomepageState extends State<Homepage> {
                 );
               }),
             ),
-            Container(
-              width: double.maxFinite,
-              height: 100,
-              color: Colors.yellow,
-              child: const Fotter(),
-            )
+            const Footer(),
           ],
         ),
       ),

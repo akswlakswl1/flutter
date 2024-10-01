@@ -1,39 +1,38 @@
 import 'package:flutter/material.dart';
 
-class Fotter extends StatelessWidget {
-  const Fotter({super.key});
+class Footer extends StatelessWidget {
+  const Footer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
+      color: Colors.black,
+      padding: const EdgeInsets.all(16),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Expanded(
-            child: Container(
-              color: Colors.red,
-              child: const Center(
-                child: Text('Container 1'),
-              ),
-            ),
+          const Text("ⓒ2024 Movie WebApp all rights reserved"),
+          const SizedBox(
+            height: 8,
           ),
-          Expanded(
-            child: Container(
-              color: Colors.green,
-              child: const Center(
-                child: Text('Container 2'),
-              ),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(onPressed: () {}, icon: const Icon(Icons.link)),
+              IconButton(onPressed: () {}, icon: const Icon(Icons.image)),
+            ],
           ),
-          Expanded(
-            child: Container(
-              color: Colors.red,
-              child: const Center(
-                child: Text('Container 3'),
-              ),
-            ),
+          const SizedBox(
+            height: 8,
           ),
+          Wrap(
+            spacing: 16,
+            children: [
+              TextButton(onPressed: () {}, child: const Text("Abou us")),
+              TextButton(onPressed: () {}, child: const Text("Privacy Policy")),
+              TextButton(
+                  onPressed: () {}, child: const Text("Terms of Sevice")),
+            ],
+          )
         ],
       ),
     );
